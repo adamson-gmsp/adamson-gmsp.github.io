@@ -1,7 +1,2 @@
 name: "dash_temp_v2"
-navbar:
-  title: "ABC"
-  left:
-    text: "Home"
-    href: index.html
 output_dir: docs
