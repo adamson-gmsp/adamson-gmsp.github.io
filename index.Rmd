@@ -43,7 +43,7 @@ value = c(0.153,0.163,0.174,0.186,0.161,
 ```
 
 
-# Indicator #1 {data-navmenu="Economy"}
+# Job Growth {data-navmenu="Economy"}
 
 
 Row {data-width=150}
