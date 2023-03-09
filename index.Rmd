@@ -31,11 +31,11 @@ year = c(2019,2020,2021,2022,2023,
          2019,2020,2021,2022,2023,
          2019,2020,2021,2022,2023,
          2019,2020,2021,2022,2023),
-value = c(0.153,0.163,0.174,0.186,0.161,
-          0.25,0.26,0.27,0.28,0.26,
-          0.11,0.13,0.17,0.19,0.22,
-          0.17,0.16,0.12,0.13,0.15,
-          0.12,0.13,0.14,0.18,0.16)
+value = c(0.153,0.163,NA,0.186,0.161,
+          0.25,0.26,0.29,0.28,0.26,
+          0.11,0.13,NA,0.19,0.22,
+          0.17,0.16,0.20,0.13,0.15,
+          0.12,0.13,NA,0.18,0.16)
 )
 
 cca_df = cca_df %>%
@@ -75,9 +75,11 @@ Row {data-width=350}
 ### Peer Comparison Over Time
 
 ```{r}
-x_lines = cca_df %>%
+x_lines = cca_df %>% 
+  na.omit() %>%
   ggplot( aes(x=year, y=value, group=region, color = Legend)) +
   geom_line(aes(size=Legend)) + 
+  geom_point(size = 1.8) + 
   scale_x_continuous(expand = c(0.04, 0), limits = c(2019, NA), 
                      breaks = seq(2019, 2023, 1)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 0.35), 
