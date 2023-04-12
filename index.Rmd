@@ -7,106 +7,167 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(rmarkdown)
+#install.packages("ggplot2")
+#install.packages("tidyverse")
+#install.packages("plotly")
+#install.packages("ggplotly")
 library(flexdashboard)
+library(ggplot2)
 library(tidyverse)
 library(plotly)
-library(ggplot2)
+#library(ggplotly)
 
-#data
-cca_df <- data.frame (region  = c("MSP","MSP","MSP","MSP","MSP",
-                                  "Chicago","Chicago","Chicago","Chicago","Chicago",
-                                  "Boston","Boston","Boston","Boston","Boston",
-                                  "Austin","Austin","Austin","Austin","Austin",
-                                  "Pittsburgh","Pittsburgh","Pittsburgh","Pittsburgh","Pittsburgh"
-),
-Legend = c("MSP","MSP","MSP","MSP","MSP",
-    "peer regions","peer regions","peer regions","peer regions","peer regions",
-    "peer regions","peer regions","peer regions","peer regions","peer regions",
-    "peer regions","peer regions","peer regions","peer regions","peer regions",
-    "peer regions","peer regions","peer regions","peer regions","peer regions"
-),
-year = c(2019,2020,2021,2022,2023,
-         2019,2020,2021,2022,2023,
-         2019,2020,2021,2022,2023,
-         2019,2020,2021,2022,2023,
-         2019,2020,2021,2022,2023),
-value = c(0.153,0.163,NA,0.186,0.161,
-          0.25,0.26,0.29,0.28,0.26,
-          0.11,0.13,NA,0.19,0.22,
-          0.17,0.16,0.20,0.13,0.15,
-          0.12,0.13,NA,0.18,0.16)
-)
 
-cca_df = cca_df %>%
-  group_by(year) %>%
-  mutate(RK = rank(desc(value),ties.method = "min"))
+cca_data_p1 <- read.csv("C:/Users/Clayton.Adamson/GREATER MSP/Research & Intelligence - Documents/Major projects/Regional Indicators Dashboard/2023/cca_temp/cca_data_v1.csv") %>%
+  select(-X, -NAESTIMATES, -RK2015, -RK2016, -RK2017, -RK2018, -RK2019, -RK2020,
+         -RK2021, -RK2022, -RK2023) %>%
+  gather(year, value, c(NA2015, NA2016, NA2017, NA2018, NA2019, NA2020, NA2021, 
+                        NA2022, NA2023)) %>%
+  mutate(year = substr(year,3,6))
+cca_data_p2 <- read.csv("C:/Users/Clayton.Adamson/GREATER MSP/Research & Intelligence - Documents/Major projects/Regional Indicators Dashboard/2023/cca_temp/cca_data_v1.csv") %>%
+  select(-X, -NAESTIMATES, -NA2015, -NA2016, -NA2017, -NA2018, -NA2019, -NA2020,
+         -NA2021, -NA2022, -NA2023) %>%
+  gather(year, rank, c(RK2015, RK2016, RK2017, RK2018, RK2019, RK2020, RK2021,
+                       RK2022, RK2023)) %>%
+  mutate(year = substr(year,3,6)) %>%
+  select(MSA, year, code, rank)
+cca_data = merge(x=cca_data_p1, y=cca_data_p2, by=c("MSA", "year", "code")) %>%
+  mutate(year = as.numeric(year)) %>%
+  rename("MSA_code"="MSA","MSA"="MSA_name")
+
+#beginning year:
+BY = 2017
+EY = 2023
+PY = 2021
+
+
 
 ```
 
 
-# Job Growth {data-navmenu="Economy"}
+# Gross Regional Product Growth {data-navmenu="Economy"}
 
 
 Row {data-width=150}
 --------------------------------------
 ### Indicator
 ```{r}
-valueBox(value = "Annual Job Growth",icon = NA,caption = "Indicator - Economy",color = "lightblue")
+valueBox(value = "Gross Regional Product Growth",icon = NA,caption = "Indicator - Economy",color = "lightblue")
 ```
 
 ### Indicator
 ```{r}
-valueBox(value = 37.7,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
-```
+#devise way to code drive 
+box2 = cca_data %>%
+  filter(code=="E1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  pull(value)
 
-### Peer Comparison
-```{r}
-valueBox(value = "3rd Highest",icon = "fa-arrow-up",caption = "out of 12 regions", color = "white")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
 ```
 
 ### MSP Trends
 ```{r}
-valueBox(value = "Worsening",icon = "fa-arrow-down",caption = "MSP trend from 2021", color = "white")
+box3a = cca_data %>%
+  filter(code=="E1") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3b = cca_data %>%
+  filter(code=="E1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3 = ifelse(box3b>box3a,"Improving",
+              ifelse(box3b<box3a,"Worsening","Unchanged"))
+box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
+                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
+
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
 ```
+
+### Peer Comparison
+```{r}
+box4_temp = cca_data %>%
+  filter(code=="E1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4 = "N/A"
+box4[box4_temp == 1] <- "1st Highest"
+box4[box4_temp == 2] <- "2nd Highest"
+box4[box4_temp == 3] <- "3rd Highest"
+box4[box4_temp == 4] <- "4th Highest"
+box4[box4_temp == 5] <- "5th Highest"
+box4[box4_temp == 6] <- "6th Highest"
+box4[box4_temp == 7] <- "7th Highest"
+box4[box4_temp == 8] <- "8th Highest"
+box4[box4_temp == 9] <- "9th Highest"
+box4[box4_temp == 10] <- "10th Highest"
+box4[box4_temp == 11] <- "11th Highest"
+box4[box4_temp == 12] <- "12th Highest"
+
+box4a = cca_data %>%
+  filter(code=="E1") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4b = cca_data %>%
+  filter(code=="E1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+
+valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
+```
+
 Row {data-width=350}
 -----------------------------------------------------------------------
 
 ### Peer Comparison Over Time
 
 ```{r}
-x_lines = cca_df %>% 
+#LINE
+line_E1 = cca_data %>% 
+  filter(code=="E1") %>%
   na.omit() %>%
-  ggplot( aes(x=year, y=value, group=region, color = Legend)) +
+  ggplot( aes(x=year, y=value, group=MSA, color = Legend)) +
   geom_line(aes(size=Legend)) + 
   geom_point(size = 1.8) + 
-  scale_x_continuous(expand = c(0.04, 0), limits = c(2019, NA), 
-                     breaks = seq(2019, 2023, 1)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.35), 
-                     breaks = seq(0.05, 0.5, 0.05)) +
+  scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
+                     breaks = seq(2015, 2023, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.125), 
+                     breaks = seq(0, 0.125, 0.025)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
-    text = element_text(family = "Lato")
+    text = element_text(family = "Lato"),
+    legend.position = "none"
   )
 
-ggplotly(x_lines, tooltip = c("year", "region", "value"))
+ggplotly(line_E1, tooltip = c("year", "MSA", "value"))
 
 ```
 
 ### Peer Comparison - 2023
 
 ```{r}
-x_bar = cca_df %>%
-  filter(year ==2023) %>%
-  ggplot(aes(x=reorder(region, -RK), y=value, group=Legend, fill = Legend)) + 
+#BAR
+bar_E1 = cca_data %>%
+  filter(code=="E1") %>%
+  filter(year == EY) %>%
+  ggplot(aes(x=reorder(MSA, -rank), y=value, group=MSA, fill = Legend)) + 
   geom_bar(stat="identity")  + 
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.4), breaks = seq(0,0.4,0.05))+
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.15), breaks = seq(0,0.15,0.025))+
   xlab("") +
-  ylab("Proportion (%) responding 'TRUE'") +
+  ylab("") +
   theme(
     plot.background = element_rect(fill = "white"),
     panel.background = element_rect(fill = "white"),
@@ -123,90 +184,720 @@ x_bar = cca_df %>%
     text = element_text(family = "Lato")
   )
 
-ggplotly(x_bar, tooltip = c("year", "region", "value"))
+ggplotly(bar_E1, tooltip = c("year", "MSA", "value"))
 ```
 
 
-# Indicator #2 {data-navmenu="Economy"}
+# Job Growth {data-navmenu="Economy"}
 
 
-Column {data-width=650}
+Row {data-width=150}
+--------------------------------------
+### Indicator
+```{r}
+valueBox(value = "Annual Job Growth",icon = NA,caption = "Indicator - Economy",color = "lightblue")
+```
+
+### Indicator
+```{r}
+#devise way to code drive 
+box2 = cca_data %>%
+  filter(code=="E2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  pull(value)
+
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+```
+
+### MSP Trends
+```{r}
+box3a = cca_data %>%
+  filter(code=="E2") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3b = cca_data %>%
+  filter(code=="E2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3 = ifelse(box3b>box3a,"Improving",
+              ifelse(box3b<box3a,"Worsening","Unchanged"))
+box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
+                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
+
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+```
+
+### Peer Comparison
+```{r}
+box4_temp = cca_data %>%
+  filter(code=="E2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4 = "N/A"
+box4[box4_temp == 1] <- "1st Highest"
+box4[box4_temp == 2] <- "2nd Highest"
+box4[box4_temp == 3] <- "3rd Highest"
+box4[box4_temp == 4] <- "4th Highest"
+box4[box4_temp == 5] <- "5th Highest"
+box4[box4_temp == 6] <- "6th Highest"
+box4[box4_temp == 7] <- "7th Highest"
+box4[box4_temp == 8] <- "8th Highest"
+box4[box4_temp == 9] <- "9th Highest"
+box4[box4_temp == 10] <- "10th Highest"
+box4[box4_temp == 11] <- "11th Highest"
+box4[box4_temp == 12] <- "12th Highest"
+
+box4a = cca_data %>%
+  filter(code=="E2") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4b = cca_data %>%
+  filter(code=="E2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+
+valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
+```
+
+Row {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart A
+### Peer Comparison Over Time
 
 ```{r}
+#LINE
+line_E2 = cca_data %>% 
+  filter(code=="E2") %>%
+  na.omit() %>%
+  ggplot( aes(x=year, y=value, group=MSA, color = Legend)) +
+  geom_line(aes(size=Legend)) + 
+  geom_point(size = 1.8) + 
+  scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
+                     breaks = seq(2015, 2023, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.075), 
+                     breaks = seq(0, 0.075, 0.025)) +
+  scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
+  scale_size_manual(values = c(MSP=1.2, no=0.8))+
+  theme(
+    text = element_text(family = "Lato"),
+    legend.position = "none"
+  )
+
+ggplotly(line_E2, tooltip = c("year", "MSA", "value"))
 
 ```
 
-### Chart AA2
+### Peer Comparison - 2023
 
 ```{r}
+#BAR
+bar_E2 = cca_data %>%
+  filter(code=="E2") %>%
+  filter(year == EY) %>%
+  ggplot(aes(x=reorder(MSA, -rank), y=value, group=MSA, fill = Legend)) + 
+  geom_bar(stat="identity")  + 
+  scale_fill_manual(values=c("seagreen3","grey")) +
+  coord_flip() +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.15), breaks = seq(0,0.15,0.025))+
+  xlab("") +
+  ylab("") +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "grey"),
+    panel.grid.minor = element_line(color = "grey"),
+    axis.line.x = element_line(color = "grey"),
+    plot.title=element_text(size=18, face = 'bold'),
+    plot.subtitle=element_text(size=12, face = 'italic'),
+    axis.title.y =element_text(size=12, face = 'italic', margin = margin(r = 10)),
+    axis.text.x = element_text(size = 10, face = 'bold'),
+    axis.text.y = element_text(size = 12, face = 'bold'),
+    plot.margin = unit(c(1,1,1,1.5), "cm"),
+    plot.caption = element_text(hjust = 0),
+    text = element_text(family = "Lato")
+  )
 
+ggplotly(bar_E2, tooltip = c("year", "MSA", "value"))
 ```
 
-Column {data-width=350}
+
+
+# Cost-burdened Households {data-navmenu="Livability"}
+
+
+
+Row {data-width=150}
+--------------------------------------
+### Indicator
+```{r}
+valueBox(value = "% of Households that are Cost-Burdened",icon = NA,caption = "Indicator - Livability",color = "lightblue")
+```
+
+### Indicator
+```{r}
+#devise way to code drive 
+box2 = cca_data %>%
+  filter(code=="L5") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  pull(value)
+
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+```
+
+### MSP Trends
+```{r}
+box3a = cca_data %>%
+  filter(code=="L5") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3b = cca_data %>%
+  filter(code=="L5") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3 = ifelse(box3b>box3a,"Improving",
+              ifelse(box3b<box3a,"Worsening","Unchanged"))
+box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
+                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
+
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+```
+
+### Peer Comparison
+```{r}
+box4_temp = cca_data %>%
+  filter(code=="L5") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4 = "N/A"
+box4[box4_temp == 1] <- "1st Lowest"
+box4[box4_temp == 2] <- "2nd Lowest"
+box4[box4_temp == 3] <- "3rd Lowest"
+box4[box4_temp == 4] <- "4th Lowest"
+box4[box4_temp == 5] <- "5th Lowest"
+box4[box4_temp == 6] <- "6th Lowest"
+box4[box4_temp == 7] <- "7th Lowest"
+box4[box4_temp == 8] <- "8th Lowest"
+box4[box4_temp == 9] <- "9th Lowest"
+box4[box4_temp == 10] <- "10th Lowest"
+box4[box4_temp == 11] <- "11th Lowest"
+box4[box4_temp == 12] <- "12th Lowest"
+
+box4a = cca_data %>%
+  filter(code=="L5") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4b = cca_data %>%
+  filter(code=="L5") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+
+valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
+```
+
+Row {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Peer Comparison Over Time
 
 ```{r}
+#LINE
+line_L5 = cca_data %>% 
+  filter(code=="L5") %>%
+  na.omit() %>%
+  ggplot( aes(x=year, y=value, group=MSA, color = Legend)) +
+  geom_line(aes(size=Legend)) + 
+  geom_point(size = 1.8) + 
+  scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
+                     breaks = seq(2015, 2023, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.5), 
+                     breaks = seq(0, 0.5, 0.1)) +
+  scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
+  scale_size_manual(values = c(MSP=1.2, no=0.8))+
+  theme(
+    text = element_text(family = "Lato"),
+    legend.position = "none"
+  )
+
+ggplotly(line_L5, tooltip = c("year", "MSA", "value"))
 
 ```
 
+### Peer Comparison - 2023
 
-# Indicator #3 {data-navmenu="Talent"}
+```{r}
+#BAR
+bar_L5 = cca_data %>%
+  filter(code=="L5") %>%
+  filter(year == EY) %>%
+  ggplot(aes(x=reorder(MSA, -rank), y=value, group=MSA, fill = Legend)) + 
+  geom_bar(stat="identity")  + 
+  scale_fill_manual(values=c("seagreen3","grey")) +
+  coord_flip() +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.5), breaks = seq(0,0.5,0.1))+
+  xlab("") +
+  ylab("") +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "grey"),
+    panel.grid.minor = element_line(color = "grey"),
+    axis.line.x = element_line(color = "grey"),
+    plot.title=element_text(size=18, face = 'bold'),
+    plot.subtitle=element_text(size=12, face = 'italic'),
+    axis.title.y =element_text(size=12, face = 'italic', margin = margin(r = 10)),
+    axis.text.x = element_text(size = 10, face = 'bold'),
+    axis.text.y = element_text(size = 12, face = 'bold'),
+    plot.margin = unit(c(1,1,1,1.5), "cm"),
+    plot.caption = element_text(hjust = 0),
+    text = element_text(family = "Lato")
+  )
+
+ggplotly(bar_L5, tooltip = c("year", "MSA", "value"))
+```
 
 
-Column {data-width=650}
+# Change in Median Rent {data-navmenu="Livability"}
+
+
+Row {data-width=150}
+--------------------------------------
+### Indicator
+```{r}
+valueBox(value = "Change in Median Rent (2-BR Apt.)",icon = NA,caption = "Indicator - Livability",color = "lightblue")
+```
+
+### Indicator
+```{r}
+#devise way to code drive 
+box2 = cca_data %>%
+  filter(code=="L6") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  pull(value)
+
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+```
+
+### MSP Trends
+```{r}
+box3a = cca_data %>%
+  filter(code=="L6") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3b = cca_data %>%
+  filter(code=="L6") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3 = ifelse(box3b>box3a,"Improving",
+              ifelse(box3b<box3a,"Worsening","Unchanged"))
+box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
+                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
+
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+```
+
+### Peer Comparison
+```{r}
+box4_temp = cca_data %>%
+  filter(code=="L6") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4 = "N/A"
+box4[box4_temp == 1] <- "1st Lowest"
+box4[box4_temp == 2] <- "2nd Lowest"
+box4[box4_temp == 3] <- "3rd Lowest"
+box4[box4_temp == 4] <- "4th Lowest"
+box4[box4_temp == 5] <- "5th Lowest"
+box4[box4_temp == 6] <- "6th Lowest"
+box4[box4_temp == 7] <- "7th Lowest"
+box4[box4_temp == 8] <- "8th Lowest"
+box4[box4_temp == 9] <- "9th Lowest"
+box4[box4_temp == 10] <- "10th Lowest"
+box4[box4_temp == 11] <- "11th Lowest"
+box4[box4_temp == 12] <- "12th Lowest"
+
+box4a = cca_data %>%
+  filter(code=="L6") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4b = cca_data %>%
+  filter(code=="L6") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+
+valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
+```
+Row {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart A
+### Peer Comparison Over Time
 
 ```{r}
+#LINE
+line_L6 = cca_data %>% 
+  filter(code=="L6") %>%
+  na.omit() %>%
+  ggplot( aes(x=year, y=value, group=MSA, color = Legend)) +
+  geom_line(aes(size=Legend)) + 
+  geom_point(size = 1.8) + 
+  scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
+                     breaks = seq(2015, 2023, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.10), 
+                     breaks = seq(0, 0.10, 0.025)) +
+  scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
+  scale_size_manual(values = c(MSP=1.2, no=0.8))+
+  theme(
+    text = element_text(family = "Lato"),
+    legend.position = "none"
+  )
+
+ggplotly(line_L6, tooltip = c("year", "MSA", "value"))
 
 ```
 
-### Chart AA2
+### Peer Comparison - 2023
 
 ```{r}
+#BAR
+bar_L6 = cca_data %>%
+  filter(code=="L6") %>%
+  filter(year == EY) %>%
+  ggplot(aes(x=reorder(MSA, -rank), y=value, group=MSA, fill = Legend)) + 
+  geom_bar(stat="identity")  + 
+  scale_fill_manual(values=c("seagreen3","grey")) +
+  coord_flip() +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.15), breaks = seq(0,0.15,0.025))+
+  xlab("") +
+  ylab("") +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "grey"),
+    panel.grid.minor = element_line(color = "grey"),
+    axis.line.x = element_line(color = "grey"),
+    plot.title=element_text(size=18, face = 'bold'),
+    plot.subtitle=element_text(size=12, face = 'italic'),
+    axis.title.y =element_text(size=12, face = 'italic', margin = margin(r = 10)),
+    axis.text.x = element_text(size = 10, face = 'bold'),
+    axis.text.y = element_text(size = 12, face = 'bold'),
+    plot.margin = unit(c(1,1,1,1.5), "cm"),
+    plot.caption = element_text(hjust = 0),
+    text = element_text(family = "Lato")
+  )
 
+ggplotly(bar_L6, tooltip = c("year", "MSA", "value"))
 ```
 
-Column {data-width=350}
+
+
+# Gross Regional Product {data-navmenu="Vital Stats"}
+
+Row {data-width=150}
+--------------------------------------
+### Indicator
+```{r}
+valueBox(value = "Gross Regional Product (Millions)",icon = NA,caption = "Indicator - Vital Statistics",color = "lightblue")
+```
+
+### Indicator
+```{r}
+#devise way to code drive 
+box2 = cca_data %>%
+  filter(code=="V1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  pull(value)
+
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+```
+
+### MSP Trends
+```{r}
+box3a = cca_data %>%
+  filter(code=="V1") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3b = cca_data %>%
+  filter(code=="V1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3 = ifelse(box3b>box3a,"Improving",
+              ifelse(box3b<box3a,"Worsening","Unchanged"))
+box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
+                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
+
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+```
+
+### Peer Comparison
+```{r}
+box4_temp = cca_data %>%
+  filter(code=="V1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4 = "N/A"
+box4[box4_temp == 1] <- "1st Highest"
+box4[box4_temp == 2] <- "2nd Highest"
+box4[box4_temp == 3] <- "3rd Highest"
+box4[box4_temp == 4] <- "4th Highest"
+box4[box4_temp == 5] <- "5th Highest"
+box4[box4_temp == 6] <- "6th Highest"
+box4[box4_temp == 7] <- "7th Highest"
+box4[box4_temp == 8] <- "8th Highest"
+box4[box4_temp == 9] <- "9th Highest"
+box4[box4_temp == 10] <- "10th Highest"
+box4[box4_temp == 11] <- "11th Highest"
+box4[box4_temp == 12] <- "12th Highest"
+
+box4a = cca_data %>%
+  filter(code=="V1") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4b = cca_data %>%
+  filter(code=="V1") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+
+valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
+```
+Row {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Peer Comparison Over Time
 
 ```{r}
+#LINE
+line_V1 = cca_data %>% 
+  filter(code=="V1") %>%
+  na.omit() %>%
+  ggplot( aes(x=year, y=value, group=MSA, color = Legend)) +
+  geom_line(aes(size=Legend)) + 
+  geom_point(size = 1.8) + 
+  scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
+                     breaks = seq(2015, 2023, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 800000), 
+                     breaks = seq(0, 800000, 200000)) +
+  scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
+  scale_size_manual(values = c(MSP=1.2, no=0.8))+
+  theme(
+    text = element_text(family = "Lato"),
+    legend.position = "none"
+  )
+
+ggplotly(line_V1, tooltip = c("year", "MSA", "value"))
 
 ```
 
+### Peer Comparison - 2023
 
-# Indicator #4 {data-navmenu="Talent"}
+```{r}
+#BAR
+bar_V1 = cca_data %>%
+  filter(code=="V1") %>%
+  filter(year == EY) %>%
+  ggplot(aes(x=reorder(MSA, -rank), y=value, group=MSA, fill = Legend)) + 
+  geom_bar(stat="identity")  + 
+  scale_fill_manual(values=c("seagreen3","grey")) +
+  coord_flip() +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,800000), breaks = seq(0,800000,200000))+
+  xlab("") +
+  ylab("") +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "grey"),
+    panel.grid.minor = element_line(color = "grey"),
+    axis.line.x = element_line(color = "grey"),
+    plot.title=element_text(size=18, face = 'bold'),
+    plot.subtitle=element_text(size=12, face = 'italic'),
+    axis.title.y =element_text(size=12, face = 'italic', margin = margin(r = 10)),
+    axis.text.x = element_text(size = 10, face = 'bold'),
+    axis.text.y = element_text(size = 12, face = 'bold'),
+    plot.margin = unit(c(1,1,1,1.5), "cm"),
+    plot.caption = element_text(hjust = 0),
+    text = element_text(family = "Lato")
+  )
+
+ggplotly(bar_V1, tooltip = c("year", "MSA", "value"))
+```
 
 
-Column {data-width=650}
+# Gross Regional Product per Capita {data-navmenu="Vital Stats"}
+
+
+Row {data-width=150}
+--------------------------------------
+### Indicator
+```{r}
+valueBox(value = "Gross Regional Product per Capita",icon = NA,caption = "Indicator - Vital Statistics",color = "lightblue")
+```
+
+### Indicator
+```{r}
+#devise way to code drive 
+box2 = cca_data %>%
+  filter(code=="V2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+```
+
+### MSP Trends
+```{r}
+box3a = cca_data %>%
+  filter(code=="V2") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3b = cca_data %>%
+  filter(code=="V2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(value)
+box3 = ifelse(box3b>box3a,"Improving",
+              ifelse(box3b<box3a,"Worsening","Unchanged"))
+box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
+                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
+
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+```
+
+### Peer Comparison
+```{r}
+box4_temp = cca_data %>%
+  filter(code=="V2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4 = "N/A"
+box4[box4_temp == 1] <- "1st Highest"
+box4[box4_temp == 2] <- "2nd Highest"
+box4[box4_temp == 3] <- "3rd Highest"
+box4[box4_temp == 4] <- "4th Highest"
+box4[box4_temp == 5] <- "5th Highest"
+box4[box4_temp == 6] <- "6th Highest"
+box4[box4_temp == 7] <- "7th Highest"
+box4[box4_temp == 8] <- "8th Highest"
+box4[box4_temp == 9] <- "9th Highest"
+box4[box4_temp == 10] <- "10th Highest"
+box4[box4_temp == 11] <- "11th Highest"
+box4[box4_temp == 12] <- "12th Highest"
+
+box4a = cca_data %>%
+  filter(code=="V2") %>%
+  filter(year == PY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4b = cca_data %>%
+  filter(code=="V2") %>%
+  filter(year == EY) %>%
+  filter(MSA == "MSP") %>%
+  pull(rank)
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+
+valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
+```
+Row {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart A
+### Peer Comparison Over Time
 
 ```{r}
+#LINE
+line_V2 = cca_data %>% 
+  filter(code=="V2") %>%
+  na.omit() %>%
+  ggplot( aes(x=year, y=value, group=MSA, color = Legend)) +
+  geom_line(aes(size=Legend)) + 
+  geom_point(size = 1.8) + 
+  scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
+                     breaks = seq(2015, 2023, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 150000), 
+                     breaks = seq(0, 150000, 25000)) +
+  scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
+  scale_size_manual(values = c(MSP=1.2, no=0.8))+
+  theme(
+    text = element_text(family = "Lato"),
+    legend.position = "none"
+  )
+
+ggplotly(line_V2, tooltip = c("year", "MSA", "value"))
 
 ```
 
-### Chart AA2
+### Peer Comparison - 2023
 
 ```{r}
+#BAR
+bar_V2 = cca_data %>%
+  filter(code=="V2") %>%
+  filter(year == EY) %>%
+  ggplot(aes(x=reorder(MSA, -rank), y=value, group=MSA, fill = Legend)) + 
+  geom_bar(stat="identity")  + 
+  scale_fill_manual(values=c("seagreen3","grey")) +
+  coord_flip() +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0,150000), breaks = seq(0,150000,25000))+
+  xlab("") +
+  ylab("") +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "grey"),
+    panel.grid.minor = element_line(color = "grey"),
+    axis.line.x = element_line(color = "grey"),
+    plot.title=element_text(size=18, face = 'bold'),
+    plot.subtitle=element_text(size=12, face = 'italic'),
+    axis.title.y =element_text(size=12, face = 'italic', margin = margin(r = 10)),
+    axis.text.x = element_text(size = 10, face = 'bold'),
+    axis.text.y = element_text(size = 12, face = 'bold'),
+    plot.margin = unit(c(1,1,1,1.5), "cm"),
+    plot.caption = element_text(hjust = 0),
+    text = element_text(family = "Lato")
+  )
 
+ggplotly(bar_V2, tooltip = c("year", "MSA", "value"))
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-
-```
 
