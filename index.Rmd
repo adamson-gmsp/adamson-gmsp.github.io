@@ -85,7 +85,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021_", color = "lightblue")
 ```
 
 ### Peer Comparison
