@@ -635,7 +635,7 @@ box2 = cca_data %>%
   filter(code=="V1") %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
-  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  dplyr::mutate_if(is.numeric, round, 1) %>%
   pull(value)
 
 valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
@@ -776,7 +776,8 @@ valueBox(value = "Gross Regional Product per Capita",icon = NA,caption = "Indica
 box2 = cca_data %>%
   filter(code=="V2") %>%
   filter(year == EY) %>%
-  filter(MSA == "MSP") %>%
+  filter(MSA == "MSP") %>%  
+  dplyr::mutate_if(is.numeric, round, 1) %>%
   pull(value)
 
 valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
