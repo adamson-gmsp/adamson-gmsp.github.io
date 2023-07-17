@@ -284,7 +284,7 @@ line_E2 = cca_data %>%
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 0.075), 
-                     breaks = seq(0, 0.075, 0.025)) +
+                     breaks = seq(0, 0.075, 0.01)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -308,7 +308,7 @@ bar_E2 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.15), breaks = seq(0,0.15,0.025))+
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.075), breaks = seq(0,0.075,0.01))+
   xlab("") +
   ylab("") +
   theme(
@@ -691,8 +691,8 @@ box4b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
-box4_icon = ifelse(box4b<box4a,"fa-arrow-down",
-              ifelse(box4b>box4a,"fa-arrow-up","ion-code"))
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
 
 valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
 ```
@@ -834,8 +834,8 @@ box4b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
-box4_icon = ifelse(box4b<box4a,"fa-arrow-down",
-              ifelse(box4b>box4a,"fa-arrow-up","ion-code"))
+box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
+              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
 
 valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
 ```
@@ -1207,7 +1207,7 @@ box2 = cca_data %>%
   filter(code=="BV3") %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
-  dplyr::mutate_if(is.numeric, round, 1) %>%
+  dplyr::mutate_if(is.numeric, round, 2) %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
@@ -1228,9 +1228,8 @@ box3b = cca_data %>%
   pull(value)
 box3 = ifelse(box3b>box3a,"Improving",
               ifelse(box3b<box3a,"Worsening","Unchanged"))
-#box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
-#                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
-box3_icon = "ion-code"
+box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
+                   ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
 valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
 ```
@@ -1287,8 +1286,8 @@ line_BV3 = cca_data %>%
   geom_point(size = 1.8) + 
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
-  scale_y_continuous(labels = scales::comma, expand = c(0, 0), limits = c(0, 6), 
-                     breaks = seq(0, 6, 1)) +
+  scale_y_continuous(labels = scales::comma, expand = c(0, 0), limits = c(0, 26), 
+                     breaks = seq(0, 26, 5)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -1312,7 +1311,7 @@ bar_BV3 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::comma, limits = c(0,6), breaks = seq(0,6,1))+
+  scale_y_continuous(labels = scales::comma, limits = c(0,25), breaks = seq(0,25,5))+
   xlab("") +
   ylab("") +
   theme(
@@ -4386,8 +4385,8 @@ box4b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
-box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
-              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+box4_icon = ifelse(box4b<box4a,"fa-arrow-down",
+              ifelse(box4b>box4a,"fa-arrow-up","ion-code"))
 
 valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
 ```
@@ -5389,8 +5388,8 @@ box4b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
-box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
-              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+box4_icon = ifelse(box4b<box4a,"fa-arrow-down",
+              ifelse(box4b>box4a,"fa-arrow-up","ion-code"))
 
 valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
 ```
@@ -5532,8 +5531,8 @@ box4b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
-box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
-              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+box4_icon = ifelse(box4b<box4a,"fa-arrow-down",
+              ifelse(box4b>box4a,"fa-arrow-up","ion-code"))
 
 valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
 ```
@@ -5818,8 +5817,8 @@ box4b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
-box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
-              ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+box4_icon = ifelse(box4b<box4a,"fa-arrow-down",
+              ifelse(box4b>box4a,"fa-arrow-up","ion-code"))
 
 valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
 ```
@@ -6550,7 +6549,7 @@ line_L6 = cca_data %>%
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 0.10), 
-                     breaks = seq(0, 0.10, 0.025)) +
+                     breaks = seq(0, 0.10, 0.02)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -6574,7 +6573,7 @@ bar_L6 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.15), breaks = seq(0,0.15,0.025))+
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.10), breaks = seq(0,0.10,0.02))+
   xlab("") +
   ylab("") +
   theme(
@@ -6859,7 +6858,7 @@ bar_V2 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,150000), breaks = seq(0,150000,25000))+
+  scale_y_continuous(labels = scales::comma, limits = c(0,150000), breaks = seq(0,150000,25000))+
   xlab("") +
   ylab("") +
   theme(
@@ -7001,7 +7000,7 @@ bar_V3 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,150000), breaks = seq(0,150000,25000))+
+  scale_y_continuous(labels = scales::comma, limits = c(0,150000), breaks = seq(0,150000,25000))+
   xlab("") +
   ylab("") +
   theme(
@@ -7286,7 +7285,7 @@ bar_V5 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,5000000), breaks = seq(0,5000000,1000000))+
+  scale_y_continuous(labels = scales::comma, limits = c(0,5000000), breaks = seq(0,5000000,1000000))+
   xlab("") +
   ylab("") +
   theme(
@@ -7686,8 +7685,8 @@ line_V8 = cca_data %>%
   geom_point(size = 1.8) + 
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.11), 
-                     breaks = seq(0, 0.11, 0.02)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.15), 
+                     breaks = seq(0, 0.15, 0.025)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -7710,7 +7709,7 @@ bar_V8 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.11), breaks = seq(0,0.11,0.02))+
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.15), breaks = seq(0,0.15,0.025))+
   xlab("") +
   ylab("") +
   theme(
@@ -8133,7 +8132,7 @@ bar_V11 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,10000000), breaks = seq(0,10000000,2000000))+
+  scale_y_continuous(labels = scales::comma, limits = c(0,10000000), breaks = seq(0,10000000,2000000))+
   xlab("") +
   ylab("") +
   theme(
