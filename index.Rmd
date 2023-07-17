@@ -8228,8 +8228,8 @@ box4b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
-box4_icon = ifelse(box4b<box4a,"fa-arrow-up",
-                   ifelse(box4b>box4a,"fa-arrow-down","ion-code"))
+box4_icon = ifelse(box4b<box4a,"fa-arrow-down",
+                   ifelse(box4b>box4a,"fa-arrow-up","ion-code"))
 
 valueBox(value = box4, icon = box4_icon,caption = "out of 12 regions", color = "white")
 ```
