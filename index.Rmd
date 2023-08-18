@@ -1,5 +1,5 @@
 ---
-title: "GMSP Indicators"
+title: "2023 GMSP Indicators"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -18,13 +18,13 @@ library(plotly)
 #library(ggplotly)
 
 
-cca_data_p1 <- read.csv("C:/Users/Clayton.Adamson/GREATER MSP/Research & Intelligence - Documents/Major projects/Regional Indicators Dashboard/2023/website/cca_temp/cca_data_v1.csv") %>%
+cca_data_p1 <- read.csv("G:/My Drive/Research/GMSP/cca_temp/cca_data_v1.csv") %>%
   select(-X, -NAESTIMATES, -RK2015, -RK2016, -RK2017, -RK2018, -RK2019, -RK2020,
          -RK2021, -RK2022, -RK2023) %>%
   gather(year, value, c(NA2015, NA2016, NA2017, NA2018, NA2019, NA2020, NA2021, 
                         NA2022, NA2023)) %>%
   mutate(year = substr(year,3,6))
-cca_data_p2 <- read.csv("C:/Users/Clayton.Adamson/GREATER MSP/Research & Intelligence - Documents/Major projects/Regional Indicators Dashboard/2023/website/cca_temp/cca_data_v1.csv") %>%
+cca_data_p2 <- read.csv("G:/My Drive/Research/GMSP/cca_temp/cca_data_v1.csv") %>%
   select(-X, -NAESTIMATES, -NA2015, -NA2016, -NA2017, -NA2018, -NA2019, -NA2020,
          -NA2021, -NA2022, -NA2023) %>%
   gather(year, rank, c(RK2015, RK2016, RK2017, RK2018, RK2019, RK2020, RK2021,
