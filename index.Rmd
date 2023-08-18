@@ -10,25 +10,24 @@ output:
 #install.packages("ggplot2")
 #install.packages("tidyverse")
 #install.packages("plotly")
-#install.packages("ggplotly")
-library(flexdashboard)
+#install.packages("flexdashboard")
 library(ggplot2)
 library(tidyverse)
 library(plotly)
-#library(ggplotly)
+library(flexdashboard)
 
 
-cca_data_p1 <- read.csv("C:/Users/Clayton.Adamson/GREATER MSP/Research & Intelligence - Documents/Major projects/Regional Indicators Dashboard/2023/website/cca_temp/cca_data_v1.csv") %>%
+cca_data_p1 <- read.csv("C:/Users/adams/Downloads/2024/website/cca_temp/cca_data_v1.csv") %>%
   select(-X, -NAESTIMATES, -RK2015, -RK2016, -RK2017, -RK2018, -RK2019, -RK2020,
-         -RK2021, -RK2022, -RK2023) %>%
+         -RK2021, -RK2022, -RK2023, -RK2024) %>%
   gather(year, value, c(NA2015, NA2016, NA2017, NA2018, NA2019, NA2020, NA2021, 
-                        NA2022, NA2023)) %>%
+                        NA2022, NA2023, NA2024)) %>%
   mutate(year = substr(year,3,6))
-cca_data_p2 <- read.csv("C:/Users/Clayton.Adamson/GREATER MSP/Research & Intelligence - Documents/Major projects/Regional Indicators Dashboard/2023/website/cca_temp/cca_data_v1.csv") %>%
+cca_data_p2 <- read.csv("C:/Users/adams/Downloads/2024/website/cca_temp/cca_data_v1.csv") %>%
   select(-X, -NAESTIMATES, -NA2015, -NA2016, -NA2017, -NA2018, -NA2019, -NA2020,
-         -NA2021, -NA2022, -NA2023) %>%
+         -NA2021, -NA2022, -NA2023, -NA2024) %>%
   gather(year, rank, c(RK2015, RK2016, RK2017, RK2018, RK2019, RK2020, RK2021,
-                       RK2022, RK2023)) %>%
+                       RK2022, RK2023, RK2024)) %>%
   mutate(year = substr(year,3,6)) %>%
   select(MSA, year, code, rank)
 cca_data = merge(x=cca_data_p1, y=cca_data_p2, by=c("MSA", "year", "code")) %>%
@@ -37,7 +36,7 @@ cca_data = merge(x=cca_data_p1, y=cca_data_p2, by=c("MSA", "year", "code")) %>%
 
 #beginning year:
 BY = 2017
-EY = 2023
+EY = 2024
 PY = 2021
 
 
@@ -65,7 +64,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -85,7 +84,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -153,7 +152,7 @@ ggplotly(line_E1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -208,7 +207,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -228,7 +227,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -296,7 +295,7 @@ ggplotly(line_E2, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -351,7 +350,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -371,7 +370,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -439,7 +438,7 @@ ggplotly(line_E3, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -494,7 +493,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -514,7 +513,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -582,7 +581,7 @@ ggplotly(line_E4, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -637,7 +636,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -657,7 +656,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -725,7 +724,7 @@ ggplotly(line_E5, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -780,7 +779,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -800,7 +799,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -868,7 +867,7 @@ ggplotly(line_E6, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -924,7 +923,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -944,7 +943,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1012,7 +1011,7 @@ ggplotly(line_BV1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -1068,7 +1067,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -1088,7 +1087,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1156,7 +1155,7 @@ ggplotly(line_BV2, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -1211,7 +1210,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -1231,7 +1230,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1299,7 +1298,7 @@ ggplotly(line_BV3, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -1353,7 +1352,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -1373,7 +1372,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1441,7 +1440,7 @@ ggplotly(line_BV4, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -1496,7 +1495,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -1516,7 +1515,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1584,7 +1583,7 @@ ggplotly(line_BV5, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -1639,7 +1638,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -1659,7 +1658,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1727,7 +1726,7 @@ ggplotly(line_BV6, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -1782,7 +1781,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -1802,7 +1801,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1871,7 +1870,7 @@ ggplotly(line_T1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -1926,7 +1925,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -1946,7 +1945,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2015,7 +2014,7 @@ ggplotly(line_T2, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -2070,7 +2069,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -2090,7 +2089,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2158,7 +2157,7 @@ ggplotly(line_T3, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -2213,7 +2212,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -2233,7 +2232,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2301,7 +2300,7 @@ ggplotly(line_T4, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -2356,7 +2355,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -2376,7 +2375,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2444,7 +2443,7 @@ ggplotly(line_T5, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -2498,7 +2497,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -2518,7 +2517,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2586,7 +2585,7 @@ ggplotly(line_T6, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -2643,7 +2642,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -2663,7 +2662,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2727,7 +2726,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -2782,7 +2781,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -2802,7 +2801,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2865,7 +2864,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -2922,7 +2921,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -2942,7 +2941,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3005,7 +3004,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -3060,7 +3059,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -3080,7 +3079,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3144,7 +3143,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -3200,7 +3199,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -3220,7 +3219,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3284,7 +3283,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -3340,7 +3339,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -3360,7 +3359,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3424,7 +3423,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -3480,7 +3479,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -3500,7 +3499,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3564,7 +3563,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -3620,7 +3619,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -3640,7 +3639,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3708,7 +3707,7 @@ ggplotly(line_EDU8, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -3763,7 +3762,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -3783,7 +3782,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3851,7 +3850,7 @@ ggplotly(line_EDU9, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -3906,7 +3905,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -3926,7 +3925,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -3994,7 +3993,7 @@ ggplotly(line_I1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -4049,7 +4048,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -4069,7 +4068,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -4137,7 +4136,7 @@ ggplotly(line_I2, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -4192,7 +4191,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -4212,7 +4211,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -4276,7 +4275,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -4331,7 +4330,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -4351,7 +4350,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -4419,7 +4418,7 @@ ggplotly(line_I4, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -4475,7 +4474,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -4495,7 +4494,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -4563,7 +4562,7 @@ ggplotly(line_I5, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -4618,7 +4617,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -4638,7 +4637,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -4706,7 +4705,7 @@ ggplotly(line_I6, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -4761,7 +4760,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -4781,7 +4780,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -4849,7 +4848,7 @@ ggplotly(line_I7, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -4904,7 +4903,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -4924,7 +4923,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -4992,7 +4991,7 @@ ggplotly(line_ENV1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -5047,7 +5046,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -5067,7 +5066,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -5135,7 +5134,7 @@ ggplotly(line_ENV2, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -5191,7 +5190,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -5211,7 +5210,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -5279,7 +5278,7 @@ ggplotly(line_ENV3, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -5334,7 +5333,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -5354,7 +5353,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -5422,7 +5421,7 @@ ggplotly(line_ENV4, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -5477,7 +5476,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -5497,7 +5496,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -5565,7 +5564,7 @@ ggplotly(line_ENV5, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -5620,7 +5619,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -5640,7 +5639,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -5708,7 +5707,7 @@ ggplotly(line_ENV6, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -5763,7 +5762,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -5783,7 +5782,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -5851,7 +5850,7 @@ ggplotly(line_L1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -5906,7 +5905,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -5926,7 +5925,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -5990,7 +5989,7 @@ ggplotly(line1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -6046,7 +6045,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -6066,7 +6065,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6134,7 +6133,7 @@ ggplotly(line_L3, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -6189,7 +6188,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -6209,7 +6208,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6277,7 +6276,7 @@ ggplotly(line_L4, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -6331,7 +6330,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -6351,7 +6350,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6419,7 +6418,7 @@ ggplotly(line_L5, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -6474,7 +6473,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -6494,7 +6493,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6561,7 +6560,7 @@ ggplotly(line_L6, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -6616,7 +6615,7 @@ box2 = cca_data %>%
   format(big.mark = ",", scientific = FALSE) %>%
   pull(value)
 
-valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2, icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -6636,7 +6635,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6704,7 +6703,7 @@ ggplotly(line_V1, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -6759,7 +6758,7 @@ box2 = cca_data %>%
   dplyr::mutate_if(is.numeric, round, 1) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -6779,7 +6778,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6846,7 +6845,7 @@ ggplotly(line_V2, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -6901,7 +6900,7 @@ box2 = cca_data %>%
   dplyr::mutate_if(is.numeric, round, 1) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -6921,7 +6920,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6988,7 +6987,7 @@ ggplotly(line_V3, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -7043,7 +7042,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -7063,7 +7062,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7131,7 +7130,7 @@ ggplotly(line_V4, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -7186,7 +7185,7 @@ box2 = cca_data %>%
   dplyr::mutate_if(is.numeric, round, 1) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -7206,7 +7205,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7273,7 +7272,7 @@ ggplotly(line_V5, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -7327,7 +7326,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -7347,7 +7346,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7415,7 +7414,7 @@ ggplotly(line_V6, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -7469,7 +7468,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -7489,7 +7488,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7556,7 +7555,7 @@ line_V7 = cca_data %>%
 ggplotly(line_V7, tooltip = c("MSA", "value"))
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -7610,7 +7609,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -7630,7 +7629,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7697,7 +7696,7 @@ line_V8 = cca_data %>%
 ggplotly(line_V8, tooltip = c("MSA", "value"))
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -7751,7 +7750,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -7771,7 +7770,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7838,7 +7837,7 @@ line_V9 = cca_data %>%
 ggplotly(line_V9, tooltip = c("MSA", "value"))
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -7892,7 +7891,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -7912,7 +7911,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7979,7 +7978,7 @@ line_V10 = cca_data %>%
 ggplotly(line_V10, tooltip = c("MSA", "value"))
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -8033,7 +8032,7 @@ box2 = cca_data %>%
   dplyr::mutate_if(is.numeric, round, 1) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -8053,7 +8052,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -8120,7 +8119,7 @@ ggplotly(line_V11, tooltip = c("MSA", "value"))
 
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -8174,7 +8173,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -8194,7 +8193,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -8261,7 +8260,7 @@ line_V12 = cca_data %>%
 ggplotly(line_V12, tooltip = c("MSA", "value"))
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
@@ -8315,7 +8314,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2024",color = "lightblue")
 ```
 
 ### MSP Trends
@@ -8335,7 +8334,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2023", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -8402,7 +8401,7 @@ line_V13 = cca_data %>%
 ggplotly(line_V13, tooltip = c("MSA", "value"))
 ```
 
-### Peer Comparison - 2023
+### Peer Comparison - 2024
 
 ```{r}
 #BAR
