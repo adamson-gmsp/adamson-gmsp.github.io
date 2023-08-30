@@ -7342,8 +7342,8 @@ box3b = cca_data %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
   pull(value)
-box3 = ifelse(box3b>box3a,"Improving",
-              ifelse(box3b<box3a,"Worsening","Unchanged"))
+box3 = ifelse(box3b>box3a,"Worsening",
+              ifelse(box3b<box3a,"Improving","Unchanged"))
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
@@ -7466,7 +7466,7 @@ box2 = cca_data %>%
   filter(code=="V7") %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
-  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  mutate(value = scales::percent(value, accuracy = 0.01)) %>%
   pull(value)
 
 valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
@@ -7500,18 +7500,18 @@ box4_temp = cca_data %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4 = "N/A"
-box4[box4_temp == 1] <- "1st Highest"
-box4[box4_temp == 2] <- "2nd Highest"
-box4[box4_temp == 3] <- "3rd Highest"
-box4[box4_temp == 4] <- "4th Highest"
-box4[box4_temp == 5] <- "5th Highest"
-box4[box4_temp == 6] <- "6th Highest"
-box4[box4_temp == 7] <- "7th Highest"
-box4[box4_temp == 8] <- "8th Highest"
-box4[box4_temp == 9] <- "9th Highest"
-box4[box4_temp == 10] <- "10th Highest"
-box4[box4_temp == 11] <- "11th Highest"
-box4[box4_temp == 12] <- "12th Highest"
+box4[box4_temp == 1] <- "1st Lowest"
+box4[box4_temp == 2] <- "2nd Lowest"
+box4[box4_temp == 3] <- "3rd Lowest"
+box4[box4_temp == 4] <- "4th Lowest"
+box4[box4_temp == 5] <- "5th Lowest"
+box4[box4_temp == 6] <- "6th Lowest"
+box4[box4_temp == 7] <- "7th Lowest"
+box4[box4_temp == 8] <- "8th Lowest"
+box4[box4_temp == 9] <- "9th Lowest"
+box4[box4_temp == 10] <- "10th Lowest"
+box4[box4_temp == 11] <- "11th Lowest"
+box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="V7") %>%
@@ -7607,7 +7607,7 @@ box2 = cca_data %>%
   filter(code=="V8") %>%
   filter(year == EY) %>%
   filter(MSA == "MSP") %>%
-  mutate(value = scales::percent(value, accuracy = 0.1)) %>%
+  mutate(value = scales::percent(value, accuracy = 0.01)) %>%
   pull(value)
 
 valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
@@ -7641,18 +7641,18 @@ box4_temp = cca_data %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4 = "N/A"
-box4[box4_temp == 1] <- "1st Highest"
-box4[box4_temp == 2] <- "2nd Highest"
-box4[box4_temp == 3] <- "3rd Highest"
-box4[box4_temp == 4] <- "4th Highest"
-box4[box4_temp == 5] <- "5th Highest"
-box4[box4_temp == 6] <- "6th Highest"
-box4[box4_temp == 7] <- "7th Highest"
-box4[box4_temp == 8] <- "8th Highest"
-box4[box4_temp == 9] <- "9th Highest"
-box4[box4_temp == 10] <- "10th Highest"
-box4[box4_temp == 11] <- "11th Highest"
-box4[box4_temp == 12] <- "12th Highest"
+box4[box4_temp == 1] <- "1st Lowest"
+box4[box4_temp == 2] <- "2nd Lowest"
+box4[box4_temp == 3] <- "3rd Lowest"
+box4[box4_temp == 4] <- "4th Lowest"
+box4[box4_temp == 5] <- "5th Lowest"
+box4[box4_temp == 6] <- "6th Lowest"
+box4[box4_temp == 7] <- "7th Lowest"
+box4[box4_temp == 8] <- "8th Lowest"
+box4[box4_temp == 9] <- "9th Lowest"
+box4[box4_temp == 10] <- "10th Lowest"
+box4[box4_temp == 11] <- "11th Lowest"
+box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="V8") %>%
