@@ -39,7 +39,7 @@ cca_data = merge(x=cca_data_p1, y=cca_data_p2, by=c("MSA", "year", "code")) %>%
 BY = 2017
 EY = 2023
 PY = 2021
-
+PY_ACS = 2022
 
 
 ```
@@ -787,7 +787,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="E6") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -826,7 +826,7 @@ box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="E6") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -2363,7 +2363,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="T5") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -2402,7 +2402,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="T5") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -2505,7 +2505,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="T6") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -2544,7 +2544,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="T6") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -4768,7 +4768,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="I7") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -4807,7 +4807,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="I7") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -6338,7 +6338,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="L5") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -6377,7 +6377,7 @@ box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="L5") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -6481,7 +6481,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="L6") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -6520,7 +6520,7 @@ box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="L6") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -6548,8 +6548,8 @@ line_L6 = cca_data %>%
   geom_point(size = 1.8) + 
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.10), 
-                     breaks = seq(0, 0.10, 0.02)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.15), 
+                     breaks = seq(0, 0.15, 0.025)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -6573,7 +6573,7 @@ bar_L6 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.10), breaks = seq(0,0.10,0.02))+
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.15), breaks = seq(0,0.15,0.025))+
   xlab("") +
   ylab("") +
   theme(
@@ -6908,7 +6908,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="V3") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -6947,7 +6947,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="V3") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -7050,7 +7050,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="V4") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -7089,7 +7089,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="V4") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -7758,7 +7758,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="V9") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -7797,7 +7797,7 @@ box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="V9") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -7899,7 +7899,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="V10") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -7938,7 +7938,7 @@ box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="V10") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -8040,7 +8040,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="V11") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -8079,7 +8079,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="V11") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -8181,7 +8181,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="V12") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -8220,7 +8220,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="V12") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -8322,7 +8322,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="V13") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -8361,7 +8361,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="V13") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
