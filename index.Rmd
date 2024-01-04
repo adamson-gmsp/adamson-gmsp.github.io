@@ -644,7 +644,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="E5") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -657,7 +657,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -683,7 +683,7 @@ box4[box4_temp == 12] <- "12th Lowest"
 
 box4a = cca_data %>%
   filter(code=="E5") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -800,7 +800,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1789,7 +1789,7 @@ valueBox(value = box2, icon = NA,caption = "MSP Region, 2023",color = "lightblue
 ```{r}
 box3a = cca_data %>%
   filter(code=="T1") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -1802,7 +1802,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -1828,7 +1828,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="T1") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -1858,8 +1858,8 @@ line_T1 = cca_data %>%
   geom_hline(yintercept = 0) +
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
-  scale_y_continuous(labels = scales::comma, expand = c(0, 0), limits = c(-25000, 25000), 
-                     breaks = seq(-25000, 25000, 5000)) +
+  scale_y_continuous(labels = scales::comma, expand = c(0, 0), limits = c(-30000, 35000), 
+                     breaks = seq(-30000, 35000, 5000)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -1883,7 +1883,7 @@ bar_T1 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::comma, limits = c(-20000,20000), breaks = seq(-20000,20000,5000))+
+  scale_y_continuous(labels = scales::comma, limits = c(-30000,35000), breaks = seq(-30000,35000,5000))+
   xlab("") +
   ylab("") +
   theme(
@@ -2077,7 +2077,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="T3") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -2090,7 +2090,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2116,7 +2116,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="T3") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -2220,7 +2220,7 @@ valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue"
 ```{r}
 box3a = cca_data %>%
   filter(code=="T4") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(value)
 box3b = cca_data %>%
@@ -2233,7 +2233,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2259,7 +2259,7 @@ box4[box4_temp == 12] <- "12th Highest"
 
 box4a = cca_data %>%
   filter(code=="T4") %>%
-  filter(year == PY) %>%
+  filter(year == PY_ACS) %>%
   filter(MSA == "MSP") %>%
   pull(rank)
 box4b = cca_data %>%
@@ -2376,7 +2376,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2431,8 +2431,8 @@ line_T5 = cca_data %>%
   geom_point(size = 1.8) + 
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.60), 
-                     breaks = seq(0, 0.60, 0.10)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.70), 
+                     breaks = seq(0, 0.70, 0.10)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -2456,7 +2456,7 @@ bar_T5 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.60), breaks = seq(0,0.60,0.10))+
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.70), breaks = seq(0,0.70,0.10))+
   xlab("") +
   ylab("") +
   theme(
@@ -2518,7 +2518,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -2573,8 +2573,8 @@ line_T6 = cca_data %>%
   geom_point(size = 1.8) + 
   scale_x_continuous(expand = c(0.04, 0), limits = c(BY, EY), 
                      breaks = seq(2015, 2023, 1)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.60), 
-                     breaks = seq(0, 0.60, 0.10)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.7), 
+                     breaks = seq(0, 0.70, 0.10)) +
   scale_color_manual(values=c(MSP='seagreen3', 'peer regions'='grey')) +
   scale_size_manual(values = c(MSP=1.2, no=0.8))+
   theme(
@@ -2598,7 +2598,7 @@ bar_T6 = cca_data %>%
   scale_fill_manual(values=c("seagreen3","grey")) +
   coord_flip() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0,0.60), breaks = seq(0,0.60,0.10))+
+  scale_y_continuous(labels = scales::percent, limits = c(0,0.70), breaks = seq(0,0.70,0.10))+
   xlab("") +
   ylab("") +
   theme(
@@ -4781,7 +4781,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6494,7 +6494,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -6921,7 +6921,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7063,7 +7063,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7771,7 +7771,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -7912,7 +7912,7 @@ box3 = ifelse(box3b>box3a,"Worsening",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-down",
                    ifelse(box3 == "Worsening","fa-arrow-up","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -8053,7 +8053,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -8194,7 +8194,7 @@ box3 = ifelse(box3b>box3a,"Improving",
 box3_icon = ifelse(box3 == "Improving", "fa-arrow-up",
                    ifelse(box3 == "Worsening","fa-arrow-down","ion-code"))
 
-valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2021", color = "lightblue")
+valueBox(value = box3,icon = box3_icon,caption = "MSP trend from 2022", color = "lightblue")
 ```
 
 ### Peer Comparison
@@ -8315,7 +8315,7 @@ box2 = cca_data %>%
   mutate(value = scales::percent(value, accuracy = 0.1)) %>%
   pull(value)
 
-valueBox(value = box2,icon = NA,caption = "MSP Region, 2023",color = "lightblue")
+valueBox(value = box2,icon = NA,caption = "MSP Region, 2022",color = "lightblue")
 ```
 
 ### MSP Trends
